@@ -9,11 +9,11 @@
 import Cocoa
 import AVFoundation
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     @IBOutlet weak var button: NSButton!
     var previewLayer : AVCaptureVideoPreviewLayer?
     var session : AVCaptureSession?
-    var output: AVCaptureMovieFileOutput?
+    var output: AVCaptureVideoDataOutput?
     @IBOutlet weak var customView: NSView!
     
     override func viewDidLoad() {
@@ -72,6 +72,12 @@ class ViewController: NSViewController {
                 session?.addInput(input)
                 previewLayer = AVCaptureVideoPreviewLayer(session: session)
                 
+                output = AVCaptureVideoDataOutput.init()
+                output?.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : Int(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)]
+                let captureSessionQueue = DispatchQueue(label: "CameraSessionQueue", attributes: [])
+                output?.setSampleBufferDelegate(self, queue: captureSessionQueue)
+                session?.addOutput(output)
+                
                 previewLayer?.frame = customView.bounds
                 previewLayer?.videoGravity = AVLayerVideoGravityResizeAspect
                 customView.wantsLayer = true
@@ -90,6 +96,11 @@ class ViewController: NSViewController {
             print("Capture stopped")
             button.title = "Start"
         }
+    }
+    
+    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+        /// Do more fancy stuff with sampleBuffer.
+        let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
     }
 }
 
