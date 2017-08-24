@@ -190,6 +190,7 @@
 				TargetAttributes = {
 					9C55CE691F4E278A00AB541A = {
 						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = TZ3XHXCR9A;
 						ProvisioningStyle = Automatic;
 					};
 					9C55CE7A1F4E278A00AB541A = {
@@ -403,7 +404,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = TZ3XHXCR9A;
 				INFOPLIST_FILE = VideoCapture/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.maximaxof.VideoCapture;
@@ -419,7 +420,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = TZ3XHXCR9A;
 				INFOPLIST_FILE = VideoCapture/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.maximaxof.VideoCapture;
