@@ -55,7 +55,7 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         
         
         if (input != nil) {
-            session?.removeInput(session?.inputs.first as! AVCaptureInput)
+            session?.removeInput((session?.inputs.first)!)
             session?.addInput(input!)
             session?.startRunning()
         }
@@ -69,28 +69,24 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
             // print(CGMainDisplayID())
             let input = AVCaptureScreenInput.init(displayID: CGMainDisplayID())         // Screen Capture
             
-            if (input != nil) {
-                session?.addInput(input)
-                previewLayer = AVCaptureVideoPreviewLayer(session: session!)
-                
-                output = AVCaptureVideoDataOutput.init()
-                output?.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String : Int(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)]
-                let captureSessionQueue = DispatchQueue(label: "CameraSessionQueue", attributes: [])
-                output?.setSampleBufferDelegate(self, queue: captureSessionQueue)
-                session?.addOutput(output!)
-                
-                previewLayer?.frame = customView.bounds
-                previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspect
-                customView.wantsLayer = true
-                
-                customView.layer?.addSublayer(previewLayer!)
-                session?.startRunning()
-                print("Capture started")
-                button.title = "Stop"
-                
-            } else {
-                print("Fail")
-            }
+            session?.addInput(input)
+            previewLayer = AVCaptureVideoPreviewLayer(session: session!)
+            
+            output = AVCaptureVideoDataOutput.init()
+            output?.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String : Int(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)]
+            let captureSessionQueue = DispatchQueue(label: "CameraSessionQueue", attributes: [])
+            output?.setSampleBufferDelegate(self, queue: captureSessionQueue)
+            session?.addOutput(output!)
+            
+            previewLayer?.frame = customView.bounds
+            previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspect
+            customView.wantsLayer = true
+            
+            customView.layer?.addSublayer(previewLayer!)
+            session?.startRunning()
+            print("Capture started")
+            button.title = "Stop"
+            
         } else {
             previewLayer?.removeFromSuperlayer()
             session?.stopRunning()
