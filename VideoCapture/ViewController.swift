@@ -8,6 +8,7 @@
 
 import Cocoa
 import AVFoundation
+import CoreFoundation
 
 class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     @IBOutlet weak var button: NSButton!
@@ -46,8 +47,8 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         var input:AVCaptureDeviceInput?                                             // Camera Capture
         
         do {
-            let device = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
-            input = try AVCaptureDeviceInput(device: device)
+            let device = AVCaptureDevice.default(for: AVMediaType.video)
+            input = try AVCaptureDeviceInput(device: device!)
         } catch {
             print("Error")
         }
@@ -55,7 +56,7 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         
         if (input != nil) {
             session?.removeInput(session?.inputs.first as! AVCaptureInput)
-            session?.addInput(input)
+            session?.addInput(input!)
             session?.startRunning()
         }
     }
@@ -70,16 +71,16 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
             
             if (input != nil) {
                 session?.addInput(input)
-                previewLayer = AVCaptureVideoPreviewLayer(session: session)
+                previewLayer = AVCaptureVideoPreviewLayer(session: session!)
                 
                 output = AVCaptureVideoDataOutput.init()
-                output?.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable : Int(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)]
+                output?.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String : Int(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)]
                 let captureSessionQueue = DispatchQueue(label: "CameraSessionQueue", attributes: [])
                 output?.setSampleBufferDelegate(self, queue: captureSessionQueue)
-                session?.addOutput(output)
+                session?.addOutput(output!)
                 
                 previewLayer?.frame = customView.bounds
-                previewLayer?.videoGravity = AVLayerVideoGravityResizeAspect
+                previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspect
                 customView.wantsLayer = true
                 
                 customView.layer?.addSublayer(previewLayer!)
@@ -98,9 +99,13 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
         }
     }
     
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
+    func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         /// Do more fancy stuff with sampleBuffer.
-        let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
+        let imageBuffer:CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)!
+        
+        CVPixelBufferLockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: 0))
+        
+        CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: 0))
     }
 }
 

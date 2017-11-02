@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="12121"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -658,7 +658,7 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="VideoCapture" customModuleProvider="target"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-62" y="-169"/>
+            <point key="canvasLocation" x="132" y="-149"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
@@ -670,6 +670,9 @@
                         <rect key="contentRect" x="1048" y="581" width="575" height="365"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
                         <value key="minSize" type="size" width="300" height="300"/>
+                        <connections>
+                            <outlet property="delegate" destination="B8D-0N-5wS" id="tcS-Dc-vMR"/>
+                        </connections>
                     </window>
                     <connections>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="cq2-FE-JQM"/>
@@ -688,8 +691,8 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yhz-D9-LpJ">
-                                <rect key="frame" x="247" y="9" width="81" height="32"/>
-                                <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Hoc-ze-XjL">
+                                <rect key="frame" x="244" y="9" width="88" height="32"/>
+                                <buttonCell key="cell" type="push" title="Preview" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Hoc-ze-XjL">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -700,15 +703,12 @@
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="iDc-YA-ZLf">
                                 <rect key="frame" x="0.0" y="53" width="575" height="312"/>
                             </customView>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9FA-Cr-73r">
-                                <rect key="frame" x="430" y="9" width="135" height="32"/>
-                                <buttonCell key="cell" type="push" title="Switch to iSight" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fNb-GM-eLW">
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Agg-s6-PqU">
+                                <rect key="frame" x="479" y="9" width="83" height="32"/>
+                                <buttonCell key="cell" type="push" title="Record" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dEd-z8-A94">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
-                                <connections>
-                                    <action selector="switchInputPress:" target="XfG-lQ-9wD" id="9a1-2y-6fX"/>
-                                </connections>
                             </button>
                         </subviews>
                         <constraints>
@@ -718,8 +718,8 @@
                             <constraint firstItem="yhz-D9-LpJ" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="aQq-Ur-bLE"/>
                             <constraint firstItem="iDc-YA-ZLf" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="cdz-ft-pgQ"/>
                             <constraint firstAttribute="bottom" secondItem="yhz-D9-LpJ" secondAttribute="bottom" constant="16" id="ltz-8Y-xCd"/>
-                            <constraint firstAttribute="trailing" secondItem="9FA-Cr-73r" secondAttribute="trailing" constant="16" id="ouL-6b-rZw"/>
-                            <constraint firstAttribute="bottom" secondItem="9FA-Cr-73r" secondAttribute="bottom" constant="16" id="xgh-Cq-gBg"/>
+                            <constraint firstAttribute="trailing" secondItem="Agg-s6-PqU" secondAttribute="trailing" constant="19" id="ts5-n4-wnQ"/>
+                            <constraint firstAttribute="bottom" secondItem="Agg-s6-PqU" secondAttribute="bottom" constant="16" id="weZ-0b-fIS"/>
                         </constraints>
                     </view>
                     <connections>
@@ -729,7 +729,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="233.5" y="760.5"/>
+            <point key="canvasLocation" x="188" y="616"/>
         </scene>
     </scenes>
 </document>
