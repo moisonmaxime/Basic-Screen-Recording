@@ -10,11 +10,15 @@ import Cocoa
 import AVFoundation
 import CoreFoundation
 
-class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+class ViewController: NSViewController, AVCaptureFileOutputRecordingDelegate {
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        return
+    }
+    
     @IBOutlet weak var button: NSButton!
     var previewLayer : AVCaptureVideoPreviewLayer?
     var session : AVCaptureSession?
-    var output: AVCaptureVideoDataOutput?
+    var output: AVCaptureMovieFileOutput?
     @IBOutlet weak var customView: NSView!
     
     override func viewDidLoad() {
@@ -72,11 +76,13 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
             session?.addInput(input)
             previewLayer = AVCaptureVideoPreviewLayer(session: session!)
             
-            output = AVCaptureVideoDataOutput.init()
-            output?.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String : Int(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange)]
-            let captureSessionQueue = DispatchQueue(label: "CameraSessionQueue", attributes: [])
-            output?.setSampleBufferDelegate(self, queue: captureSessionQueue)
-            session?.addOutput(output!)
+            let recordingDelegate:AVCaptureFileOutputRecordingDelegate? = self
+            output = AVCaptureMovieFileOutput()
+            
+            self.session?.addOutput(output!)
+            
+            let documentsURL = FileManager.default.urls(for: .moviesDirectory, in: .userDomainMask)[0]
+            let filePath = documentsURL.appendingPathComponent("temp.mp4")
             
             previewLayer?.frame = customView.bounds
             previewLayer?.videoGravity = AVLayerVideoGravity.resizeAspect
@@ -84,24 +90,20 @@ class ViewController: NSViewController, AVCaptureVideoDataOutputSampleBufferDele
             
             customView.layer?.addSublayer(previewLayer!)
             session?.startRunning()
+            
+            output?.startRecording(to: filePath as URL, recordingDelegate: recordingDelegate!)
+            
             print("Capture started")
             button.title = "Stop"
             
         } else {
             previewLayer?.removeFromSuperlayer()
+            output?.stopRecording()
             session?.stopRunning()
             print("Capture stopped")
             button.title = "Start"
         }
     }
     
-    func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        /// Do more fancy stuff with sampleBuffer.
-        let imageBuffer:CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)!
-        
-        CVPixelBufferLockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: 0))
-        
-        CVPixelBufferUnlockBaseAddress(imageBuffer, CVPixelBufferLockFlags(rawValue: 0))
-    }
 }
 
